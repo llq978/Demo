@@ -1,190 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MRTC Demo</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- 3rd‑party libraries -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
     <style>
+        /* ---------- Base ---------- */
+        :root {
+            --clr-primary: #007bff;
+            --clr-bg-light: #ffffff;
+            --clr-bg-dark: #343a40;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
+            font-family: "Poppins", Arial, sans-serif;
+            background: var(--clr-bg-light); /* Set background to pure white */
+            color: #212529;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .container {
-            margin-top: 30px;
-            max-width: 1000px;
+        /* ---------- Utilities ---------- */
+        .shadow-lg {
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
         }
 
-        .video-container, .section {
-            text-align: left;
-            margin-top: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+        .section {
+            background: #ffffff;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s ease;
         }
 
-        .video-container:hover, .section:hover {
-            transform: scale(1.02);
-        }
-
-        .card {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: scale(1.03);
-        }
-
-        .footer {
-            margin-top: 30px;
-            padding: 20px;
-            background: #343a40;
-            color: white;
-            text-align: center;
-            border-radius: 5px;
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1s forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .section:hover {
+            transform: translateY(-4px);
         }
 
         .list-group-item {
             transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
         }
 
         .list-group-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.1);
         }
 
-        .list-group-item:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        /* ---------- Hero ---------- */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
         }
 
-        .list-group-item i {
-            margin-right: 10px;
+        .hero h1 {
+            font-weight: 700;
+            font-size: 2.5rem; /* Adjusted headline size */
+        }
+
+        @media (min-width: 992px) {
+            .hero h1 {
+                font-size: 3rem; /* Slightly larger on large screens */
+            }
+        }
+
+        .hero p.lead {
+            max-width: 700px;
+            margin: 1rem auto 2rem;
+            font-size: 1rem; /* More readable */
+        }
+
+        /* ---------- Footer ---------- */
+        footer {
+            background: var(--clr-bg-dark);
+            color: #ffffff;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        footer a {
+            color: #adb5bd;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="text-center mb-4 fade-in">
-        <h1 class="display-5 fw-bold text-primary">Multi-Robot Task Cooperation (MRTC) Demo</h1>
-        <p class="text-muted">Efficient coordination of Unmanned Sanitation Vehicles (USVs) for urban cleaning.</p>
-        <a href="https://anonymous.4open.science/r/MRTC-3702" class="btn btn-primary" target="_blank">
-        <i class="fab fa-github"></i> View Code on Anonymous Repository
+    <!-- ========================== HEADER / HERO ========================== -->
+<!--    <header class="hero" data-aos="fade-down" data-aos-duration="800">-->
+<!--        <h1 class="fw-bold mb-2 text-primary">Multi-Robot Task Cooperation (MRTC) Demo</h1>-->
+<!--        <p class="lead text-muted">Efficient coordination of Unmanned Sanitation Vehicles (USVs) for large-scale urban cleaning.</p>-->
+<!--        <a href="https://anonymous.4open.science/r/MRTC-3702" class="btn btn-primary btn-lg shadow" target="_blank">-->
+<!--            <i class="fab fa-github me-2"></i>Anonymous Code Repository-->
+<!--        </a>-->
+<!--    </header>-->
+    <header class="hero" data-aos="fade-down" data-aos-duration="800">
+<!--    <h1 class="fw-bold mb-2" style="color: #000;">MRTC: Multi-Robot Task Cooperation -->
+<!--        for Urban Unmanned Sanitation Vehicles</h1>-->
+        <h1 class="fw-bold mb-2" style="color: #000;">
+  MRTC: Multi-Robot Task Cooperation<br/>
+  for Urban Unmanned Sanitation Vehicles
+</h1>
+
+    <p class="lead" style="color: #000;">Efficient coordination of USVs for large-scale urban cleaning.</p>
+    <a href="https://anonymous.4open.science/r/MRTC-3702" class="btn btn-primary btn-lg shadow" target="_blank">
+        <i class="fab fa-github me-2"></i>Anonymous Code Repository
     </a>
-    </div>
+</header>
 
-    <!--    <div class="section fade-in">-->
-    <!--        <h2 class="text-secondary"><i class="fas fa-file-alt"></i> Abstract</h2>-->
-    <!--        <p class="lead" style="text-align: justify;">As urbanization scales up, the use of unmanned sanitation vehicles (USVs) for automated urban-->
-    <!--            cleaning has gained significant attention. However, efficiently coordinating multiple USVs in large-scale-->
-    <!--            areas (e.g., city-level) to perform cleaning tasks at low cost remains a major challenge. This is due to the-->
-    <!--            complex interplay between dynamic environmental needs and the constraints of the USVs (e.g., waste transport-->
-    <!--            capacity and battery life). We first identify the USV Collaborative Operation Problem (USVCOP) as a new-->
-    <!--            challenge that remains unsolved due to significant difficulties such as individual USV resource limitations-->
-    <!--            and the coupling of tasks across multiple USVs. To tackle this, we propose a multi-robot task cooperation-->
-    <!--            system, MRTC. Our MRTC adopts an alternating optimization strategy to solve the optimization problem via two-->
-    <!--            steps: 1) Dynamic Task Assignment, which uses a Markov decision process and an Actor-Critic algorithm to-->
-    <!--            allocate cleaning tasks and determine the required number of USVs; and 2) Single-USV Path Planning, which-->
-    <!--            optimizes USV paths using a two-layer iterative search. Extensive experiments demonstrate that our MRTC can-->
-    <!--            reduce the system operation cost and improve the USV operation efficiency, with an average 13.68% decrease-->
-    <!--            and 18% improvement with SOTA. Through collaboration with commercial companies, we deployed this system in-->
-    <!--            three different areas, in which the total average driving distances reach 10,775 km per month, with-->
-    <!--            estimated average savings of 20,575 kWh and 2,744 working hours per month.</p>-->
-    <!--    </div>-->
 
-    <div class="video-container fade-in">
-        <h2 class="text-secondary"><i class="fas fa-video"></i> Demonstration Video</h2>
-        <div class="card p-3">
-            <video width="100%" controls>
-                <source src="Demo.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-    </div>
+    <main class="container mb-5">
+        <!-- ========================== ABSTRACT ========================== -->
+        <section id="abstract" class="section" data-aos="fade-up" data-aos-duration="800">
+            <h2 class="text-secondary mb-3"><i class="fas fa-file-alt me-2"></i>Abstract</h2>
+            <p class="lead text-justify">
+                Unmanned Sanitation Vehicles (USVs) offer promising solutions for cleaner cities, yet effectively coordinating multiple vehicles across expansive urban areas poses significant operational challenges, including constraints on waste storage and battery endurance. In this demonstration, we introduce <span class="fw-semibold">MRTC</span>, a sophisticated two‑stage collaborative operation system. Initially, <span class="fw-semibold">Dynamic Task Assignment</span> utilizes an Actor–Critic policy embedded within a Markov Decision framework to strategically allocate cleaning tasks and determine optimal fleet sizes. Subsequently, the <span class="fw-semibold">Single‑USV Path Planning</span> phase optimizes individual vehicle routes via an efficient two‑layer iterative refinement process.
+           Our extensive eight‑month real‑world deployment across three urban testbeds—Area A (12×9 km), Area B (6×6 km), and Area C (12×10 km)—has demonstrated that <span class="fw-semibold">MRTC</span> significantly enhances operational efficiency and reduces costs. Key achievements include managing an impressive combined route distance of <span class="text-primary">10,775 km per month</span>, achieving substantial monthly savings of <span class="text-primary">20,575 kWh</span> in energy consumption, and reducing labor requirements by <span class="text-primary">2,744 hours</span>.
+            </p>
+        </section>
 
-    <div class="section fade-in">
-        <h2 class="text-secondary"><i class="fas fa-info-circle"></i> Overview</h2>
-        <p class="lead" style="text-align: justify;">MRTC is a novel system designed for collaborative operations of
-            multiple USVs in urban cleaning. It optimizes task assignment and path planning, reducing costs and
-            improving efficiency.</p>
-    </div>
-
-    <div class="section fade-in">
-        <h2 class="text-secondary"><i class="fas fa-star"></i> Key Features</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex align-items-center"><i class="fas fa-robot"></i> Dynamic Task
-                        Assignment with AC
-                    </li>
-                    <li class="list-group-item d-flex align-items-center"><i class="fas fa-route"></i> Optimized
-                        Multi-USV Path Planning
-                    </li>
-                    <li class="list-group-item d-flex align-items-center"><i class="fas fa-sync-alt"></i> Adaptation to Environmental Changes
-                    </li>
-                </ul>
+        <!-- ========================== DEMO VIDEO ========================== -->
+        <section id="video" class="section" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
+            <h2 class="text-secondary mb-3"><i class="fas fa-video me-2"></i>Demonstration Video</h2>
+            <div class="ratio ratio-16x9 shadow-lg rounded">
+                <video controls>
+                    <source src="Demo.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
             </div>
-            <div class="col-md-6">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex align-items-center"><i class="fas fa-dollar-sign"></i>
-                        Cost-effective Cleaning Operations
-                    </li>
-                    <li class="list-group-item d-flex align-items-center"><i class="fas fa-network-wired"></i> Multi-USV
-                        Collaborative Operations
-                    </li>
-                    <li class="list-group-item d-flex align-items-center"><i class="fas fa-leaf"></i> Sustainable and
-                        Energy-efficient Solutions
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+        </section>
 
-    <div class="section fade-in">
-        <h2 class="text-secondary"><i class="fas fa-chart-line"></i> Experimental Results</h2>
-        <div class="card p-3">
+
+<!--        &lt;!&ndash; ========================== KEY FEATURES ========================== &ndash;&gt;-->
+<!--        <section id="features" class="section" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">-->
+<!--            <h2 class="text-secondary mb-3"><i class="fas fa-star me-2"></i>Key Features</h2>-->
+<!--            <div class="row g-4">-->
+<!--                <div class="col-md-6">-->
+<!--                    <ul class="list-group list-group-flush">-->
+<!--                        <li class="list-group-item"><i class="fas fa-robot me-2 text-primary"></i>Dynamic Task Assignment with Actor‑Critic</li>-->
+<!--                        <li class="list-group-item"><i class="fas fa-route me-2 text-primary"></i>Energy‑Aware Multi‑USV Path Planning</li>-->
+<!--                        <li class="list-group-item"><i class="fas fa-sync-alt me-2 text-primary"></i>Real‑Time Adaptation to Environmental Changes</li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--                <div class="col-md-6">-->
+<!--                    <ul class="list-group list-group-flush">-->
+<!--                        <li class="list-group-item"><i class="fas fa-dollar-sign me-2 text-primary"></i>Cost‑Effective Urban Cleaning</li>-->
+<!--                        <li class="list-group-item"><i class="fas fa-network-wired me-2 text-primary"></i>Seamless Multi‑USV Collaboration</li>-->
+<!--                        <li class="list-group-item"><i class="fas fa-leaf me-2 text-primary"></i>Sustainable &amp; Energy‑Efficient Operations</li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </section>-->
+
+        <!-- ========================== MRTC Deployment & Digital Twin Cloud Platform ========================== -->
+        <section id="digital-twin cloud platform for remote scheduling (left) and on-site USV operations" class="section" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+            <h2 class="text-secondary mb-3"><i class="fas fa-map me-2"></i>MRTC Deployment & Digital Twin Cloud Platform</h2>
+              <p>
+        Since April 2024, MRTC has been deployed across three areas in collaboration with a USV supplier.
+                  To ensure safe and reliable real-world operations, we utilize a Digital Twin Cloud Platform to simulate and monitor USV driving paths.
+                  This platform acts as the control center for MRTC, dispatching assigned routes to USVs and collecting operational data via the cellular network.
+<!--                  To ensure the system operates safely and reliably in the real world, we utilize the Digital Twin Cloud Platform (Figure~\ref{fig:Digital_Twins_Cloud_Platform}) to simulate and monitor the driving path.-->
+<!--The cloud platform is the control center for executing our \sysname, dispatching assigned driving paths to USVs, and gathering operation service data via the cellular network.-->
+<!--We have captured some photos of our \sysname during the execution of USV missions.-->
+                  <br><br>
+        After departing from the depot (shown in (a)), the L4 AD algorithm controls the USV's operations and obstacle avoidance in working mode (shown in (a)).
+        When the USV's garbage bin nears full capacity, it proceeds to the designated dump site to dispose of the waste (shown in (a)). Similarly, when the water tank is low, the USV heads to the replenishment point (shown in (d)).
+        <br><br>
+        <br><br>
+        In each deployment area—Area A (12&nbsp;km × 9&nbsp;km, 1,019 road segments), Area B (6&nbsp;km × 6&nbsp;km, 667 road segments), and Area C (12&nbsp;km × 10&nbsp;km, 680 road segments)—the system manages a network of road segments. For efficient operation, the charge station, supply station, and garbage spot are co-located (red points), while blue triangles indicate the warehouse locations. The photos below show MRTC's on-site USV operations, including depot departure, autonomous driving, waste disposal, and water replenishment.
+        <br><br>
+        Over eight months, MRTC achieved average monthly driving distances of 3,598&nbsp;km, 3,888&nbsp;km, and 3,289&nbsp;km in the three areas, respectively. The system also demonstrated significant resource savings, with average monthly reductions of 20,575&nbsp;kWh in energy consumption and 2,744 working hours.
+        </p>
+            <img src="DEMO2.jpg" class="img-fluid rounded shadow-lg" alt="City road network map where MRTC is deployed" />
+        </section>
+
+
+
+
+
+        <!-- ========================== SYSTEM OVERVIEW ========================== -->
+        <section id="system-overview" class="section" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+          <h2 class="text-secondary mb-3">
+            <i class="fas fa-project-diagram me-2"></i>Autonomous Cleaning System Overview
+          </h2>
+
+          <p>
+            Figure 1 illustrates the complete pipeline of our autonomous sanitation vehicle (USV):
+            <em>(a)</em> the onboard autonomous driving controller;
+            <em>(b)</em> the brushes and sweepers in action;
+            <em>(c)</em> real-time telemetry streamed back over the cellular network; and
+            <em>(d)</em> multi-angle remote camera feeds for situational awareness.
+          </p>
+          <figure class="figure my-4">
+            <img src="AD_driving.jpg"
+                 class="img-fluid rounded shadow-lg"
+                 alt="Autonomous driving control, cleaning operation, remote monitoring, and real-time data transmission workflow" />
+            <figcaption class="figure-caption text-center">
+              Figure 1. End-to-end USV cleaning workflow.
+            </figcaption>
+          </figure>
+
+          <p>
+            Figure 2 shows our cloud-based management dashboard. Operators can
+            <strong>manage routine and dynamic tasks</strong>,
+            <strong>monitor events</strong>, and
+            <strong>track each USV’s location, status, and historical operation</strong>
+            via an interactive map, filterable vehicle list, and time-aligned trajectory timeline.
+          </p>
+          <figure class="figure">
+            <img src="DT.png"
+                 class="img-fluid rounded shadow-lg"
+                 alt="Real-time management interface with task allocation, map view, and timeline controls" />
+            <figcaption class="figure-caption text-center">
+              Figure 2. Real-time management interface for task allocation and monitoring.
+            </figcaption>
+          </figure>
+        </section>
+
+
+
+        <!-- ========================== DEPLOYMENT MAP ========================== -->
+        <section id="deployment-map" class="section" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+            <h2 class="text-secondary mb-3"><i class="fas fa-map me-2"></i>Deployment City Road Network</h2>
+            <p>We evaluate the performance of our proposed MRTC across three deployment areas in different cities.
+<!--                As shown in the figure, the three areas have the coverage range of 12&nbsp;km × 9&nbsp;km (Area A), 6&nbsp;km × 6&nbsp;km (Area B), and 12&nbsp;km × 10&nbsp;km (Area C), containing 1,019, 667, and 680 connected road segments, respectively. For convenient operation, the charge station, supply station, and garbage spot are co‑located (red points), and the blue triangles represent the warehouses.</p>-->
+            <img src="Maps.jpg" class="img-fluid rounded shadow-lg" alt="City road network map where MRTC is deployed" />
+        </section>
+
+        <!-- ========================== EXPERIMENTAL RESULTS ========================== -->
+        <section id="results" class="section" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
+            <h2 class="text-secondary mb-3"><i class="fas fa-chart-line me-2"></i>Real-world deployment results</h2>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item d-flex align-items-center"><i class="fas fa-percentage"></i> Operation cost
-                    reduced by <strong>13.68%</strong></li>
-                <li class="list-group-item d-flex align-items-center"><i class="fas fa-bolt"></i> Efficiency improved by
-                    <strong>18%</strong> compared to SOTA
-                </li>
-                <li class="list-group-item d-flex align-items-center"><i class="fas fa-road"></i> Total driving
-                    distance: <strong>10,775 km/month</strong></li>
-                <li class="list-group-item d-flex align-items-center"><i class="fas fa-battery-full"></i> Energy
-                    savings: <strong>20,575 kWh/month</strong></li>
-                <li class="list-group-item d-flex align-items-center"><i class="fas fa-user-clock"></i> Labor savings:
-                    <strong>2,744 working hours/month</strong></li>
+<!--                <li class="list-group-item d-flex align-items-center"><i class="fas fa-percentage me-2 text-success"></i>Operation cost reduced by <strong>13.68&nbsp;%</strong></li>-->
+<!--                <li class="list-group-item d-flex align-items-center"><i class="fas fa-bolt me-2 text-success"></i>Efficiency improved by <strong>18&nbsp;%</strong> vs. SOTA</li>-->
+                <li class="list-group-item d-flex align-items-center"><i class="fas fa-road me-2 text-success"></i>Total driving distance: <strong>10&nbsp;775&nbsp;km / month</strong></li>
+                <li class="list-group-item d-flex align-items-center"><i class="fas fa-battery-full me-2 text-success"></i>Energy savings: <strong>20&nbsp;575&nbsp;kWh / month</strong></li>
+                <li class="list-group-item d-flex align-items-center"><i class="fas fa-user-clock me-2 text-success"></i>Labor savings: <strong>2&nbsp;744&nbsp;hours / month</strong></li>
             </ul>
-        </div>
-    </div>
+        </section>
 
 
+        <!-- ========================== USV PARAMETERS TABLE ========================== -->
+        <section id="usv-params" class="section" data-aos="fade-up" data-aos-delay="250" data-aos-duration="800">
+            <h2 class="text-secondary mb-3"><i class="fas fa-table me-2"></i>USV Parameters</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Parameter</th>
+                            <th scope="col">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Endurance Mileage</td><td>150&nbsp;km</td></tr>
+                        <tr><td>Maximum Speed</td><td>30&nbsp;km/h</td></tr>
+                        <tr><td>Water Tank Capacity</td><td>100&nbsp;L</td></tr>
+                        <tr><td>Operation Range</td><td>Main Road</td></tr>
+                        <tr><td>Duration Limit per Time</td><td>1.5&nbsp;h</td></tr>
+                        <tr><td>Average Speed</td><td>5&nbsp;– 15&nbsp;km/h</td></tr>
+                        <tr><td>Maintenance Duration</td><td>0.5&nbsp;h</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-    <div class="footer mt-5 fade-in">
+        <!-- ========================== USV GALLERY ========================== -->
+        <section id="gallery" class="section" data-aos="fade-up" data-aos-delay="500" data-aos-duration="800">
+            <h2 class="text-secondary mb-3"><i class="fas fa-images me-2"></i>USV Fleet Gallery</h2>
+            <div id="usvCarousel" class="carousel slide shadow-lg rounded" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="USV_used.jpg" class="d-block w-100" alt="USV Prototype 1" />
+                    </div>
+                    <div class="carousel-item">
+                        <img src="A.jpg" class="d-block w-100" alt="USV Prototype 2" />
+                    </div>
+                    <div class="carousel-item">
+                        <img src="B.jpg" class="d-block w-100" alt="USV Prototype 3" />
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#usvCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#usvCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
 
-    </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </main>
+
+    <!-- ========================== FOOTER ========================== -->
+    <footer data-aos="fade-up" data-aos-delay="600" data-aos-duration="800">
+        Built with <i class="fas fa-heart mx-1"></i> XXX Team · <a href="#abstract">Back to top</a>
+    </footer>
+
+    <!-- ========================== SCRIPTS ========================== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true });
+    </script>
 </body>
 </html>
